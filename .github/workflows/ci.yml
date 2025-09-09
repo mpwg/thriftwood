@@ -48,8 +48,8 @@ jobs:
       - name: ✅ Run tests
         run: flutter test --coverage
 
-      - name: 🏗️ Build APKs
-        run: flutter build apk --release --split-per-abi
+      - name: 🏗️ Build appbundle
+        run: flutter build appbundle --release --split-per-abi
 
       - name: 📦 Prepare artifacts
         run: |
