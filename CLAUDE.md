@@ -99,3 +99,74 @@ lib/
 - Unit tests required for all services and business logic
 - Performance benchmarks must be met
 - Security review required for credential handling
+
+## Feature Flags System
+
+### Overview
+The project includes a centralized feature flag system using Riverpod for state management, supporting both runtime configuration and build-time overrides via `dart-define`.
+
+### Usage
+
+#### Basic Usage
+```dart
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'providers/feature_flag_provider.dart';
+
+class MyWidget extends ConsumerWidget {
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isFeatureEnabled = ref.watch(featureFlagProvider('my_feature'));
+    
+    return isFeatureEnabled 
+      ? Text('Feature is enabled!')
+      : Text('Feature is disabled');
+  }
+}
+```
+
+#### Managing Feature Flags
+```dart
+// Get the service instance
+final service = ref.read(featureFlagServiceProvider);
+
+// Set a feature flag
+service.setFlag('new_ui', true, description: 'Enable new UI design');
+
+// Check if enabled
+final isEnabled = service.isEnabled('new_ui');
+
+// Get flag details
+final flag = service.getFlag('new_ui');
+```
+
+#### Build-Time Overrides with dart-define
+
+Override feature flags at build time using `dart-define`:
+
+```bash
+# Enable a single feature
+flutter run --dart-define=FEATURE_FLAGS="example_feature=true"
+
+# Enable multiple features
+flutter run --dart-define=FEATURE_FLAGS="example_feature=true,new_ui=false,dark_mode=true"
+
+# Build with feature flags
+flutter build apk --dart-define=FEATURE_FLAGS="example_feature=true"
+```
+
+#### File Structure
+```
+lib/
+├── models/
+│   └── feature_flag.dart          # Freezed models for feature flags
+├── providers/
+│   └── feature_flag_provider.dart # Riverpod providers and service
+```
+
+#### Architecture
+- **FeatureFlag**: Immutable data model using Freezed
+- **FeatureFlagService**: Core service managing flags and overrides
+- **featureFlagProvider**: Riverpod provider for individual flag checks
+- **featureFlagServiceProvider**: Riverpod provider for service access
+
+Build-time overrides take precedence over runtime configuration, allowing deployment-specific feature control.

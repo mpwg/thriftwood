@@ -7,7 +7,12 @@
       "Bash(gh issue edit:*)",
       "Bash(gh issue view:*)",
       "Bash(gh milestone create:*)",
-      "Bash(gh api:*)"
+      "Bash(gh api:*)",
+      "Bash(flutter pub:*)",
+      "Bash(flutter packages pub run:*)",
+      "Bash(flutter test:*)",
+      "Bash(flutter analyze:*)",
+      "Bash(flutter run:*)"
     ],
     "deny": [],
     "ask": []
