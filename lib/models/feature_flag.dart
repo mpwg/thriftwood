@@ -12,7 +12,8 @@ class FeatureFlag with _$FeatureFlag {
     String? environmentOverride,
   }) = _FeatureFlag;
 
-  factory FeatureFlag.fromJson(Map<String, dynamic> json) => _$FeatureFlagFromJson(json);
+  factory FeatureFlag.fromJson(Map<String, dynamic> json) =>
+      _$FeatureFlagFromJson(json);
 }
 
 @freezed
@@ -22,5 +23,6 @@ class FeatureFlagConfig with _$FeatureFlagConfig {
     @Default({}) Map<String, dynamic> buildTimeOverrides,
   }) = _FeatureFlagConfig;
 
-  factory FeatureFlagConfig.fromJson(Map<String, dynamic> json) => _$FeatureFlagConfigFromJson(json);
+  factory FeatureFlagConfig.fromJson(Map<String, dynamic> json) =>
+      _$FeatureFlagConfigFromJson(json);
 }

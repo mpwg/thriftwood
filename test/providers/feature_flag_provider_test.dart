@@ -25,9 +25,9 @@ void main() {
 
     test('should set and get feature flags', () {
       service.setFlag('test_feature', true, description: 'Test feature');
-      
+
       expect(service.isEnabled('test_feature'), true);
-      
+
       final flag = service.getFlag('test_feature');
       expect(flag?.key, 'test_feature');
       expect(flag?.enabled, true);
@@ -37,7 +37,7 @@ void main() {
     test('should update existing flags', () {
       service.setFlag('test_feature', false);
       expect(service.isEnabled('test_feature'), false);
-      
+
       service.setFlag('test_feature', true);
       expect(service.isEnabled('test_feature'), true);
     });
@@ -72,20 +72,20 @@ void main() {
     test('should provide individual flag states', () {
       final service = container.read(featureFlagServiceProvider.notifier);
       service.setFlag('provider_test', true);
-      
+
       final isEnabled = container.read(featureFlagProvider('provider_test'));
       expect(isEnabled, true);
     });
 
     test('should update when flag changes', () {
       final service = container.read(featureFlagServiceProvider.notifier);
-      
+
       // Initial state
       expect(container.read(featureFlagProvider('dynamic_test')), false);
-      
+
       // Update flag
       service.setFlag('dynamic_test', true);
-      
+
       // Should reflect the change since provider watches the state
       expect(container.read(featureFlagProvider('dynamic_test')), true);
     });
@@ -93,11 +93,8 @@ void main() {
 
   group('FeatureFlag model', () {
     test('should create feature flag with required fields', () {
-      const flag = FeatureFlag(
-        key: 'test_key',
-        enabled: true,
-      );
-      
+      const flag = FeatureFlag(key: 'test_key', enabled: true);
+
       expect(flag.key, 'test_key');
       expect(flag.enabled, true);
       expect(flag.description, null);
@@ -111,7 +108,7 @@ void main() {
         description: 'Test description',
         environmentOverride: 'TEST_OVERRIDE',
       );
-      
+
       expect(flag.key, 'test_key');
       expect(flag.enabled, false);
       expect(flag.description, 'Test description');
@@ -124,12 +121,12 @@ void main() {
         enabled: true,
         description: 'JSON test',
       );
-      
+
       final json = flag.toJson();
       expect(json['key'], 'json_test');
       expect(json['enabled'], true);
       expect(json['description'], 'JSON test');
-      
+
       final reconstructed = FeatureFlag.fromJson(json);
       expect(reconstructed, flag);
     });
@@ -138,7 +135,7 @@ void main() {
   group('FeatureFlagConfig model', () {
     test('should create empty config by default', () {
       const config = FeatureFlagConfig();
-      
+
       expect(config.flags, isEmpty);
       expect(config.buildTimeOverrides, isEmpty);
     });
@@ -149,7 +146,7 @@ void main() {
         flags: {'test': flag},
         buildTimeOverrides: {'override': true},
       );
-      
+
       expect(config.flags['test'], flag);
       expect(config.buildTimeOverrides['override'], true);
     });
