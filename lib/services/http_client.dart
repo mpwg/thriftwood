@@ -58,6 +58,20 @@ class AppHttpClient {
   final Connectivity _connectivity;
   final Random _random = Random();
 
+  /// Public constructor used by tests and consumers.
+  /// Initializes fields synchronously and starts async Dio setup in
+  /// a fire-and-forget manner so callers receive the instance immediately.
+  AppHttpClient({
+    required HttpClientConfig config,
+    Connectivity? connectivity,
+    Dio? dio,
+  }) : _config = config,
+       _connectivity = connectivity ?? Connectivity() {
+    _dio = dio ?? Dio();
+    // Start async setup but do not await here so construction is immediate.
+    Future.microtask(() => _setupDio());
+  }
+
   AppHttpClient._({
     required HttpClientConfig config,
     required Connectivity connectivity,
