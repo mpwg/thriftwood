@@ -136,8 +136,3 @@ void main() {
   });
 }
 
-extension on AppHttpClient {
-  void dispose() {
-    // This would dispose the Dio instance in the real implementation
-  }
-}

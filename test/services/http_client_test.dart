@@ -366,7 +366,7 @@ void main() {
           enableLogging: false,
         );
 
-        final client = AppHttpClient(
+        AppHttpClient(
           config: configWithApiKey,
           connectivity: mockConnectivity,
           dio: mockDio,
@@ -385,7 +385,7 @@ void main() {
           enableLogging: false,
         );
 
-        final client = AppHttpClient(
+        AppHttpClient(
           config: configWithBearer,
           connectivity: mockConnectivity,
           dio: mockDio,
