@@ -2,41 +2,55 @@ name: CI
 
 on:
   push:
-    branches: [ main, develop ]
+    branches: [main, develop]
   pull_request:
-    branches: [ main, develop ]
+    branches: [main, develop]
 
 jobs:
   test:
     runs-on: ubuntu-latest
-    
-    steps:
-    - name: Checkout repository
-      uses: actions/checkout@v5
-      
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        channel: 'stable'
-        cache: true
-        
-    - name: Get dependencies
-      run: flutter pub get
-      
-#    - name: Verify formatting
-#      run: dart format --output=none --set-exit-if-changed .
-      
-    - name: Analyze project source
-      run: flutter analyze
-      
-    - name: Run tests
-      run: flutter test
-      
-    - name: Build Android APK
-      run: flutter build apk
 
-    - name: Build Android appbundle
-      run: flutter build appbundle
-      
-    - name: Build Web
-      run: flutter build web
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: "stable"
+          cache: true
+
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v3
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/android/.gradle/caches
+            ~/android/.gradle/wrapper
+            !~/android/.gradle/wrapper/dists/**/gradle*.zip
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      #    - name: Verify formatting
+      #      run: dart format --output=none --set-exit-if-changed .
+
+      - name: Analyze project source
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test
+
+      - name: Build Android APK
+        run: flutter build apk
+
+      - name: Build Android appbundle
+        run: flutter build appbundle
+
+      - name: Build Web
+        run: flutter build web
