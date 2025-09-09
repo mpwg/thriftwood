@@ -251,3 +251,26 @@ These instructions are comprehensive and tested. Only search for additional info
 - The instructions appear outdated or incorrect based on your observations
 
 Following these instructions will minimize build failures, reduce CI issues, and help you work more efficiently with the Thriftwood codebase.
+
+## Additional Notes
+
+### Asset Management
+- **iOS Launch Screen**: Customizable via `ios/Runner/Assets.xcassets/LaunchImage.imageset/`
+- **App Icons**: Platform-specific icons in respective asset directories
+- **Web Icons**: PWA icons located in `web/icons/`
+
+### Development Tips
+- **Hot Reload**: Save files during `flutter run` for instant updates
+- **Widget Inspector**: Use Flutter Inspector in IDE for UI debugging  
+- **Performance Profiling**: Use `flutter run --profile` for performance analysis
+- **Device Testing**: Use `flutter devices` to see available test devices
+
+### Common Development Patterns for This Project
+Based on the specifications, this app will likely need:
+- **HTTP clients** for API integration (Radarr, Sonarr, etc.)
+- **State management** (consider Provider, Riverpod, or Bloc patterns)
+- **Local storage** for offline functionality (shared_preferences, sqflite)
+- **Navigation** patterns for multi-module architecture
+- **Background processing** for sync operations
+
+When implementing new features, always refer to the comprehensive specifications in the `/spec/` directory first.
