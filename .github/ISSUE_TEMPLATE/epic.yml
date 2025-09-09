@@ -1,0 +1,90 @@
+name: "Epic"
+description: "Create an epic for large features spanning multiple issues"
+title: "Epic: "
+labels: ["epic", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 🎯 Epic Template
+        
+        Use this template for large features that span multiple user stories and issues.
+
+  - type: textarea
+    id: epic-overview
+    attributes:
+      label: "Epic Overview"
+      description: "High-level description of this epic"
+      placeholder: "Brief description of the major feature or capability this epic delivers..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: user-stories
+    attributes:
+      label: "User Stories Included"
+      description: "List the user stories that make up this epic"
+      placeholder: |
+        - **User Story X.1**: Title and brief description
+        - **User Story X.2**: Title and brief description
+        - **User Story X.3**: Title and brief description
+    validations:
+      required: true
+
+  - type: textarea
+    id: key-features
+    attributes:
+      label: "Key Features"
+      description: "Main features delivered by this epic"
+      placeholder: |
+        - Feature 1: Description
+        - Feature 2: Description
+        - Feature 3: Description
+
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: "Dependencies"
+      description: "List dependent issues and epics"
+      placeholder: |
+        - Issue #X: Description
+        - Issue #Y: Description
+        - Epic #Z: Description
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: "Epic Acceptance Criteria"
+      description: "High-level acceptance criteria for the complete epic"
+      placeholder: |
+        - [ ] All user stories implemented
+        - [ ] Integration testing completed
+        - [ ] Performance requirements met
+        - [ ] Documentation updated
+    validations:
+      required: true
+
+  - type: textarea
+    id: definition-of-done
+    attributes:
+      label: "Definition of Done"
+      description: "What constitutes completion of this epic"
+      placeholder: |
+        - All constituent user stories completed
+        - End-to-end user workflows functional
+        - Performance benchmarks met
+        - Security review passed (if applicable)
+        - User documentation complete
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Priority"
+      options:
+        - "priority:high"
+        - "priority:medium"
+        - "priority:low"
+    validations:
+      required: true
