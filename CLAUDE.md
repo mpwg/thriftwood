@@ -46,3 +46,56 @@ The project currently contains the default Flutter counter app with:
 - Basic widget testing setup using flutter_test
 
 The codebase follows standard Flutter patterns with Widget-based architecture and uses Material Design components.
+
+## Issue Standards and Best Practices
+
+### GitHub Issue Requirements
+All GitHub issues must follow specific standards for AI-assisted development. Before working on any issue, verify it includes:
+
+- **User Story Format**: Clear "As a [user] I want [feature] so that [benefit]" structure
+- **Value Proposition**: Explanation of why the feature matters
+- **Specific File Paths**: Exact files to create/modify (e.g., `lib/services/radarr_client.dart`)
+- **Implementation Guidance**: Required packages, patterns, and conventions
+- **Acceptance Criteria**: Measurable, testable outcomes as checkboxes
+- **Error Handling Requirements**: How errors should be managed
+- **Testing Requirements**: Coverage expectations and test types
+- **Definition of Done**: Clear completion criteria
+
+### File Structure Conventions
+```
+lib/
+├── models/[service]/[entity].dart     # Freezed data models
+├── services/[service]_client.dart     # API clients with retry logic
+├── screens/[service]/[screen]_screen.dart # UI screens
+├── widgets/common/[widget]_widget.dart # Reusable widgets
+├── utils/[utility]_helper.dart        # Utility functions
+└── exceptions/api_exception.dart      # Custom exceptions
+```
+
+### Code Standards
+- **Models**: Use Freezed for immutable data classes with JSON serialization
+- **API Clients**: Implement repository pattern with dependency injection
+- **UI**: Prefer StatelessWidget with proper state management (Provider/Bloc/Riverpod)
+- **Error Handling**: Custom exceptions with user-friendly messages
+- **Testing**: 80%+ unit test coverage for services and business logic
+- **Performance**: Screen load times < 2s, efficient list rendering
+- **Security**: Encrypt credentials, validate all inputs, use HTTPS
+
+### Documentation Resources
+- `docs/AI_CODING_GUIDE.md` - Comprehensive coding standards and patterns
+- `docs/ISSUE_QUALITY_CHECKLIST.md` - Quality checklist for issues
+- `.github/ISSUE_TEMPLATE/` - GitHub issue templates
+
+### Before Implementation
+1. Review issue against quality checklist
+2. Verify all requirements are clear and complete  
+3. Check dependencies and implementation order
+4. Ensure testing approach is defined
+5. Confirm error handling patterns are specified
+
+### Quality Gates
+- Issues scoring < 4.0 on quality checklist should be improved before implementation
+- All code must pass static analysis (`flutter analyze`)
+- Unit tests required for all services and business logic
+- Performance benchmarks must be met
+- Security review required for credential handling

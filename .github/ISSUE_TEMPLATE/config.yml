@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: 📚 Documentation
+    url: https://github.com/mpwg/thriftwood/blob/main/docs/AI_CODING_GUIDE.md
+    about: Read our AI coding best practices guide
+  - name: ✅ Issue Quality Checklist  
+    url: https://github.com/mpwg/thriftwood/blob/main/docs/ISSUE_QUALITY_CHECKLIST.md
+    about: Review checklist before creating issues
+  - name: 💬 Discussions
+    url: https://github.com/mpwg/thriftwood/discussions
+    about: Ask questions and discuss features

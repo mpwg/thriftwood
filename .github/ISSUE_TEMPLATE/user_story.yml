@@ -1,0 +1,141 @@
+name: "User Story"
+description: "Create a user story for new features"
+title: "[Feature]: "
+labels: ["user-story", "enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ## 📝 User Story Template
+        
+        Use this template to create well-structured user stories optimized for AI-assisted development.
+        
+        **Important**: Follow the format exactly for best AI coding results.
+
+  - type: textarea
+    id: user-story
+    attributes:
+      label: "User Story"
+      description: "Write the user story in the standard format"
+      placeholder: |
+        **As a** [user type]  
+        **I want** [functionality]  
+        **So that** [benefit]
+      value: |
+        **As a** [user type]  
+        **I want** [functionality]  
+        **So that** [benefit]
+    validations:
+      required: true
+
+  - type: textarea
+    id: value-proposition
+    attributes:
+      label: "Value Proposition"
+      description: "Explain why this feature matters to users and the business"
+      placeholder: "Clear explanation of user impact and business value..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: "Acceptance Criteria"
+      description: "List specific, measurable outcomes as checkboxes"
+      placeholder: |
+        - [ ] Specific functionality requirement
+        - [ ] User experience requirement  
+        - [ ] Performance requirement
+        - [ ] Security requirement (if applicable)
+        - [ ] Testing requirement
+    validations:
+      required: true
+
+  - type: textarea
+    id: implementation-requirements
+    attributes:
+      label: "Implementation Requirements for AI Coding"
+      description: "Provide specific guidance for AI implementation"
+      placeholder: |
+        - Create: `lib/[domain]/[specific_file].dart`
+        - Update: `existing_file.dart` (add specific functionality)
+        - Dependencies: package_name, other_package
+        - Patterns: Repository, Provider, Freezed models
+        - Testing: Unit tests with 80%+ coverage
+    validations:
+      required: true
+
+  - type: textarea
+    id: technical-details
+    attributes:
+      label: "Technical Details"
+      description: "Platform, performance, and security requirements"
+      placeholder: |
+        - Platform considerations: Android/iOS/Web
+        - Performance requirements: load time < 2s, memory < 50MB
+        - Security constraints: credential encryption, secure storage
+        - Integration points: existing services, APIs
+
+  - type: textarea
+    id: definition-of-done
+    attributes:
+      label: "Definition of Done"
+      description: "Measurable completion criteria"
+      placeholder: |
+        - [ ] All acceptance criteria implemented and tested
+        - [ ] Unit tests passing with required coverage
+        - [ ] Performance benchmarks met
+        - [ ] Code review completed
+        - [ ] Documentation updated
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: "Priority"
+      description: "Select the priority level"
+      options:
+        - "priority:high"
+        - "priority:medium"
+        - "priority:low"
+    validations:
+      required: true
+
+  - type: dropdown
+    id: area
+    attributes:
+      label: "Area"
+      description: "Select the primary area of work"
+      options:
+        - "area:ui"
+        - "area:backend"
+        - "area:models"
+        - "area:notifications"
+        - "area:downloads"
+        - "area:search"
+        - "area:monitoring"
+        - "area:settings"
+        - "area:profiles"
+        - "area:security"
+        - "area:performance"
+        - "area:testing"
+
+  - type: checkboxes
+    id: ai-readiness
+    attributes:
+      label: "AI Coding Readiness Checklist"
+      description: "Verify this issue is ready for AI implementation"
+      options:
+        - label: "User story format followed"
+          required: true
+        - label: "Specific file paths provided"
+          required: true
+        - label: "Required packages listed"
+          required: true
+        - label: "Testing requirements defined"
+          required: true
+        - label: "Error handling patterns described"
+          required: true
+        - label: "Definition of done measurable"
+          required: true
