@@ -2,6 +2,17 @@
 
 A new Flutter project.
 
+## CI/CD
+
+This project includes a GitHub Actions CI workflow that runs on every push and pull request to the `main` and `develop` branches. The CI pipeline:
+
+- ✅ Sets up Flutter stable channel
+- ✅ Installs project dependencies  
+- ✅ Verifies code formatting (`dart format`)
+- ✅ Runs static analysis (`flutter analyze`)
+- ✅ Executes tests (`flutter test`)
+- ✅ Builds Android APK and Web app for validation
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
