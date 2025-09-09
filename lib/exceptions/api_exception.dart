@@ -74,7 +74,8 @@ class ApiException with _$ApiException implements Exception {
         return ApiException.timeout(
           message: 'Request timed out',
           details: message,
-          timeoutDuration: dioException.requestOptions.connectTimeout?.inMilliseconds,
+          timeoutDuration:
+              dioException.requestOptions.connectTimeout?.inMilliseconds,
         );
 
       case DioExceptionType.connectionError:
@@ -86,8 +87,9 @@ class ApiException with _$ApiException implements Exception {
 
       case DioExceptionType.badResponse:
         final statusCode = dioException.response?.statusCode ?? 0;
-        final responseData = dioException.response?.data as Map<String, dynamic>?;
-        
+        final responseData =
+            dioException.response?.data as Map<String, dynamic>?;
+
         if (statusCode == 401) {
           return ApiException.authentication(
             message: 'Authentication failed',
@@ -95,7 +97,7 @@ class ApiException with _$ApiException implements Exception {
             endpoint: endpoint,
           );
         }
-        
+
         if (statusCode == 403) {
           return ApiException.authorization(
             message: 'Access denied',
@@ -103,7 +105,7 @@ class ApiException with _$ApiException implements Exception {
             endpoint: endpoint,
           );
         }
-        
+
         if (statusCode >= 400 && statusCode < 500) {
           return ApiException.client(
             message: 'Client error',
@@ -113,7 +115,7 @@ class ApiException with _$ApiException implements Exception {
             responseData: responseData,
           );
         }
-        
+
         if (statusCode >= 500) {
           return ApiException.server(
             message: 'Server error',
@@ -123,7 +125,7 @@ class ApiException with _$ApiException implements Exception {
             responseData: responseData,
           );
         }
-        
+
         return ApiException.unknown(
           message: message,
           details: 'Unexpected response status: $statusCode',
@@ -168,15 +170,20 @@ extension ApiExceptionExtension on ApiException {
   );
 
   String get userFriendlyMessage => when(
-    network: (_, __, ___) => 'Please check your internet connection and try again.',
+    network: (_, __, ___) =>
+        'Please check your internet connection and try again.',
     timeout: (_, __, ___) => 'The request timed out. Please try again.',
-    server: (_, __, ___, ____, _____) => 'Server is temporarily unavailable. Please try again later.',
-    client: (_, statusCode, __, ___, ____) => statusCode == 404 
+    server: (_, __, ___, ____, _____) =>
+        'Server is temporarily unavailable. Please try again later.',
+    client: (_, statusCode, __, ___, ____) => statusCode == 404
         ? 'The requested resource was not found.'
         : 'Invalid request. Please check your input.',
-    authentication: (_, __, ___) => 'Please check your authentication credentials.',
-    authorization: (_, __, ___) => 'You do not have permission to access this resource.',
-    validation: (_, fieldErrors, __) => fieldErrors?.values.first ?? 'Please check your input.',
+    authentication: (_, __, ___) =>
+        'Please check your authentication credentials.',
+    authorization: (_, __, ___) =>
+        'You do not have permission to access this resource.',
+    validation: (_, fieldErrors, __) =>
+        fieldErrors?.values.first ?? 'Please check your input.',
     serialization: (_, __, ___) => 'Data format error. Please try again.',
     unknown: (_, __, ___) => 'An unexpected error occurred. Please try again.',
   );

@@ -21,7 +21,10 @@ class FeatureFlagService extends Notifier<Map<String, FeatureFlag>> {
   }
 
   void _loadBuildTimeOverrides() {
-    const overrides = String.fromEnvironment('FEATURE_FLAGS', defaultValue: '{}');
+    const overrides = String.fromEnvironment(
+      'FEATURE_FLAGS',
+      defaultValue: '{}',
+    );
     try {
       if (overrides.isNotEmpty && overrides != '{}') {
         final decoded = Uri.decodeComponent(overrides);
@@ -58,7 +61,7 @@ class FeatureFlagService extends Notifier<Map<String, FeatureFlag>> {
       enabled: enabled,
       description: description,
     );
-    
+
     state = {...state, key: newFlag};
   }
 
@@ -75,9 +78,10 @@ class FeatureFlagService extends Notifier<Map<String, FeatureFlag>> {
   }
 }
 
-final featureFlagServiceProvider = NotifierProvider<FeatureFlagService, Map<String, FeatureFlag>>(() {
-  return FeatureFlagService();
-});
+final featureFlagServiceProvider =
+    NotifierProvider<FeatureFlagService, Map<String, FeatureFlag>>(() {
+      return FeatureFlagService();
+    });
 
 final featureFlagProvider = Provider.family<bool, String>((ref, key) {
   ref.watch(featureFlagServiceProvider);

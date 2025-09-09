@@ -21,8 +21,10 @@ void main() {
             expect(details, 'Connection timeout');
           },
           network: (_, __, ___) => fail('Should be timeout exception'),
-          server: (_, __, ___, ____, _____) => fail('Should be timeout exception'),
-          client: (_, __, ___, ____, _____) => fail('Should be timeout exception'),
+          server: (_, __, ___, ____, _____) =>
+              fail('Should be timeout exception'),
+          client: (_, __, ___, ____, _____) =>
+              fail('Should be timeout exception'),
           authentication: (_, __, ___) => fail('Should be timeout exception'),
           authorization: (_, __, ___) => fail('Should be timeout exception'),
           validation: (_, __, ___) => fail('Should be timeout exception'),
@@ -47,8 +49,10 @@ void main() {
             expect(details, 'Network error');
           },
           timeout: (_, __, ___) => fail('Should be network exception'),
-          server: (_, __, ___, ____, _____) => fail('Should be network exception'),
-          client: (_, __, ___, ____, _____) => fail('Should be network exception'),
+          server: (_, __, ___, ____, _____) =>
+              fail('Should be network exception'),
+          client: (_, __, ___, ____, _____) =>
+              fail('Should be network exception'),
           authentication: (_, __, ___) => fail('Should be network exception'),
           authorization: (_, __, ___) => fail('Should be network exception'),
           validation: (_, __, ___) => fail('Should be network exception'),
@@ -62,7 +66,7 @@ void main() {
           statusCode: 401,
           requestOptions: RequestOptions(path: '/test'),
         );
-        
+
         final dioException = DioException(
           type: DioExceptionType.badResponse,
           requestOptions: RequestOptions(path: '/test'),
@@ -81,11 +85,16 @@ void main() {
           },
           network: (_, __, ___) => fail('Should be authentication exception'),
           timeout: (_, __, ___) => fail('Should be authentication exception'),
-          server: (_, __, ___, ____, _____) => fail('Should be authentication exception'),
-          client: (_, __, ___, ____, _____) => fail('Should be authentication exception'),
-          authorization: (_, __, ___) => fail('Should be authentication exception'),
-          validation: (_, __, ___) => fail('Should be authentication exception'),
-          serialization: (_, __, ___) => fail('Should be authentication exception'),
+          server: (_, __, ___, ____, _____) =>
+              fail('Should be authentication exception'),
+          client: (_, __, ___, ____, _____) =>
+              fail('Should be authentication exception'),
+          authorization: (_, __, ___) =>
+              fail('Should be authentication exception'),
+          validation: (_, __, ___) =>
+              fail('Should be authentication exception'),
+          serialization: (_, __, ___) =>
+              fail('Should be authentication exception'),
           unknown: (_, __, ___) => fail('Should be authentication exception'),
         );
       });
@@ -95,7 +104,7 @@ void main() {
           statusCode: 403,
           requestOptions: RequestOptions(path: '/test'),
         );
-        
+
         final dioException = DioException(
           type: DioExceptionType.badResponse,
           requestOptions: RequestOptions(path: '/test'),
@@ -113,7 +122,7 @@ void main() {
           statusCode: 400,
           requestOptions: RequestOptions(path: '/test'),
         );
-        
+
         final dioException = DioException(
           type: DioExceptionType.badResponse,
           requestOptions: RequestOptions(path: '/test'),
@@ -131,7 +140,8 @@ void main() {
           },
           network: (_, __, ___) => fail('Should be client exception'),
           timeout: (_, __, ___) => fail('Should be client exception'),
-          server: (_, __, ___, ____, _____) => fail('Should be client exception'),
+          server: (_, __, ___, ____, _____) =>
+              fail('Should be client exception'),
           authentication: (_, __, ___) => fail('Should be client exception'),
           authorization: (_, __, ___) => fail('Should be client exception'),
           validation: (_, __, ___) => fail('Should be client exception'),
@@ -145,7 +155,7 @@ void main() {
           statusCode: 500,
           requestOptions: RequestOptions(path: '/test'),
         );
-        
+
         final dioException = DioException(
           type: DioExceptionType.badResponse,
           requestOptions: RequestOptions(path: '/test'),
@@ -163,7 +173,8 @@ void main() {
           },
           network: (_, __, ___) => fail('Should be server exception'),
           timeout: (_, __, ___) => fail('Should be server exception'),
-          client: (_, __, ___, ____, _____) => fail('Should be server exception'),
+          client: (_, __, ___, ____, _____) =>
+              fail('Should be server exception'),
           authentication: (_, __, ___) => fail('Should be server exception'),
           authorization: (_, __, ___) => fail('Should be server exception'),
           validation: (_, __, ___) => fail('Should be server exception'),
@@ -214,34 +225,52 @@ void main() {
     group('userFriendlyMessage extension', () {
       test('should provide user-friendly message for network errors', () {
         const exception = ApiException.network(message: 'Network error');
-        expect(exception.userFriendlyMessage, 'Please check your internet connection and try again.');
+        expect(
+          exception.userFriendlyMessage,
+          'Please check your internet connection and try again.',
+        );
       });
 
       test('should provide user-friendly message for timeout errors', () {
         const exception = ApiException.timeout(message: 'Timeout');
-        expect(exception.userFriendlyMessage, 'The request timed out. Please try again.');
+        expect(
+          exception.userFriendlyMessage,
+          'The request timed out. Please try again.',
+        );
       });
 
-      test('should provide user-friendly message for authentication errors', () {
-        const exception = ApiException.authentication(message: 'Auth failed');
-        expect(exception.userFriendlyMessage, 'Please check your authentication credentials.');
-      });
+      test(
+        'should provide user-friendly message for authentication errors',
+        () {
+          const exception = ApiException.authentication(message: 'Auth failed');
+          expect(
+            exception.userFriendlyMessage,
+            'Please check your authentication credentials.',
+          );
+        },
+      );
 
       test('should provide user-friendly message for 404 errors', () {
         const exception = ApiException.client(
           message: 'Not found',
           statusCode: 404,
         );
-        expect(exception.userFriendlyMessage, 'The requested resource was not found.');
+        expect(
+          exception.userFriendlyMessage,
+          'The requested resource was not found.',
+        );
       });
 
-      test('should provide user-friendly message for validation errors with field errors', () {
-        const exception = ApiException.validation(
-          message: 'Validation failed',
-          fieldErrors: {'email': 'Invalid email format'},
-        );
-        expect(exception.userFriendlyMessage, 'Invalid email format');
-      });
+      test(
+        'should provide user-friendly message for validation errors with field errors',
+        () {
+          const exception = ApiException.validation(
+            message: 'Validation failed',
+            fieldErrors: {'email': 'Invalid email format'},
+          );
+          expect(exception.userFriendlyMessage, 'Invalid email format');
+        },
+      );
     });
 
     group('factory constructors', () {
@@ -259,8 +288,10 @@ void main() {
             expect(originalError, 'Original error');
           },
           timeout: (_, __, ___) => fail('Should be network exception'),
-          server: (_, __, ___, ____, _____) => fail('Should be network exception'),
-          client: (_, __, ___, ____, _____) => fail('Should be network exception'),
+          server: (_, __, ___, ____, _____) =>
+              fail('Should be network exception'),
+          client: (_, __, ___, ____, _____) =>
+              fail('Should be network exception'),
           authentication: (_, __, ___) => fail('Should be network exception'),
           authorization: (_, __, ___) => fail('Should be network exception'),
           validation: (_, __, ___) => fail('Should be network exception'),
@@ -272,10 +303,7 @@ void main() {
       test('should create validation exception with field errors', () {
         const exception = ApiException.validation(
           message: 'Validation failed',
-          fieldErrors: {
-            'email': 'Invalid email',
-            'password': 'Too short'
-          },
+          fieldErrors: {'email': 'Invalid email', 'password': 'Too short'},
         );
 
         exception.when(
@@ -286,9 +314,12 @@ void main() {
           },
           network: (_, __, ___) => fail('Should be validation exception'),
           timeout: (_, __, ___) => fail('Should be validation exception'),
-          server: (_, __, ___, ____, _____) => fail('Should be validation exception'),
-          client: (_, __, ___, ____, _____) => fail('Should be validation exception'),
-          authentication: (_, __, ___) => fail('Should be validation exception'),
+          server: (_, __, ___, ____, _____) =>
+              fail('Should be validation exception'),
+          client: (_, __, ___, ____, _____) =>
+              fail('Should be validation exception'),
+          authentication: (_, __, ___) =>
+              fail('Should be validation exception'),
           authorization: (_, __, ___) => fail('Should be validation exception'),
           serialization: (_, __, ___) => fail('Should be validation exception'),
           unknown: (_, __, ___) => fail('Should be validation exception'),

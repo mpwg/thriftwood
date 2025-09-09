@@ -8,7 +8,7 @@ void main() {
   group('HttpClientConfig', () {
     test('should create config with default values', () {
       const config = HttpClientConfig(baseUrl: 'https://api.example.com');
-      
+
       expect(config.baseUrl, 'https://api.example.com');
       expect(config.connectTimeout, const Duration(seconds: 30));
       expect(config.authType, AuthType.none);
@@ -32,7 +32,7 @@ void main() {
         defaultHeaders: {'Custom-Header': 'Value'},
         defaultQueryParameters: {'version': 'v1'},
       );
-      
+
       expect(config.baseUrl, 'https://custom.api.com');
       expect(config.connectTimeout, const Duration(seconds: 10));
       expect(config.receiveTimeout, const Duration(seconds: 20));
@@ -54,7 +54,7 @@ void main() {
         basicUsername: 'user',
         basicPassword: 'pass',
       );
-      
+
       expect(config.authType, AuthType.basic);
       expect(config.basicUsername, 'user');
       expect(config.basicPassword, 'pass');
@@ -78,7 +78,7 @@ void main() {
         enableRetry: false,
         enableLogging: false,
       );
-      
+
       expect(() => AppHttpClient(config: config), returnsNormally);
     });
   });
@@ -87,10 +87,16 @@ void main() {
     test('should identify retryable exceptions correctly', () {
       const networkException = ApiException.network(message: 'Network error');
       const timeoutException = ApiException.timeout(message: 'Timeout');
-      const serverException = ApiException.server(message: 'Server error', statusCode: 500);
-      const clientException = ApiException.client(message: 'Client error', statusCode: 400);
+      const serverException = ApiException.server(
+        message: 'Server error',
+        statusCode: 500,
+      );
+      const clientException = ApiException.client(
+        message: 'Client error',
+        statusCode: 400,
+      );
       const authException = ApiException.authentication(message: 'Auth error');
-      
+
       expect(networkException.isRetryable, true);
       expect(timeoutException.isRetryable, true);
       expect(serverException.isRetryable, true);
@@ -106,13 +112,19 @@ void main() {
         message: 'Validation error',
         fieldErrors: {'email': 'Invalid format'},
       );
-      
-      expect(networkException.userFriendlyMessage, 
-          'Please check your internet connection and try again.');
-      expect(timeoutException.userFriendlyMessage, 
-          'The request timed out. Please try again.');
-      expect(authException.userFriendlyMessage, 
-          'Please check your authentication credentials.');
+
+      expect(
+        networkException.userFriendlyMessage,
+        'Please check your internet connection and try again.',
+      );
+      expect(
+        timeoutException.userFriendlyMessage,
+        'The request timed out. Please try again.',
+      );
+      expect(
+        authException.userFriendlyMessage,
+        'Please check your authentication credentials.',
+      );
       expect(validationException.userFriendlyMessage, 'Invalid format');
     });
   });
@@ -126,7 +138,7 @@ void main() {
         enableRetry: false,
         enableLogging: false,
       );
-      
+
       expect(() => AppHttpClient(config: config), returnsNormally);
     });
 
@@ -138,7 +150,7 @@ void main() {
         enableRetry: false,
         enableLogging: false,
       );
-      
+
       expect(() => AppHttpClient(config: config), returnsNormally);
     });
 
@@ -151,7 +163,7 @@ void main() {
         enableRetry: false,
         enableLogging: false,
       );
-      
+
       expect(() => AppHttpClient(config: config), returnsNormally);
     });
   });

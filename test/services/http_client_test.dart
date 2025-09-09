@@ -6,15 +6,20 @@ import 'package:thriftwood/services/http_client.dart';
 import 'package:thriftwood/exceptions/api_exception.dart';
 
 class MockDio extends Mock implements Dio {}
+
 class MockConnectivity extends Mock implements Connectivity {}
+
 class MockRequestOptions extends Mock implements RequestOptions {}
+
 class MockResponse extends Mock implements Response {}
+
 class MockBaseOptions extends Mock implements BaseOptions {}
+
 class MockInterceptors extends Mock implements Interceptors {}
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
-  
+
   setUpAll(() {
     registerFallbackValue(MockBaseOptions());
     registerFallbackValue(RequestOptions(path: ''));
@@ -23,7 +28,7 @@ void main() {
   group('HttpClientConfig', () {
     test('should create config with default values', () {
       const config = HttpClientConfig(baseUrl: 'https://api.example.com');
-      
+
       expect(config.baseUrl, 'https://api.example.com');
       expect(config.connectTimeout, const Duration(seconds: 30));
       expect(config.authType, AuthType.none);
@@ -39,7 +44,7 @@ void main() {
         apiKey: 'test-key',
         enableRetry: false,
       );
-      
+
       expect(config.baseUrl, 'https://custom.api.com');
       expect(config.connectTimeout, const Duration(seconds: 10));
       expect(config.authType, AuthType.apiKey);
@@ -56,7 +61,7 @@ void main() {
     setUp(() {
       mockDio = MockDio();
       mockConnectivity = MockConnectivity();
-      
+
       config = const HttpClientConfig(
         baseUrl: 'https://api.example.com',
         enableRetry: false,
@@ -76,12 +81,14 @@ void main() {
           statusCode: 200,
           requestOptions: RequestOptions(path: '/test'),
         );
-        
-        when(() => mockDio.get<dynamic>(
-          any(),
-          queryParameters: any(named: 'queryParameters'),
-          options: any(named: 'options'),
-        )).thenAnswer((_) async => mockResponse);
+
+        when(
+          () => mockDio.get<dynamic>(
+            any(),
+            queryParameters: any(named: 'queryParameters'),
+            options: any(named: 'options'),
+          ),
+        ).thenAnswer((_) async => mockResponse);
 
         final client = AppHttpClient(
           config: config,
@@ -90,9 +97,15 @@ void main() {
         );
 
         final result = await client.get<Map<String, dynamic>>('/test');
-        
+
         expect(result, {'success': true});
-        verify(() => mockDio.get<dynamic>('/test', queryParameters: null, options: null));
+        verify(
+          () => mockDio.get<dynamic>(
+            '/test',
+            queryParameters: null,
+            options: null,
+          ),
+        );
       });
 
       test('should handle GET request with query parameters', () async {
@@ -101,12 +114,14 @@ void main() {
           statusCode: 200,
           requestOptions: RequestOptions(path: '/test'),
         );
-        
-        when(() => mockDio.get<dynamic>(
-          any(),
-          queryParameters: any(named: 'queryParameters'),
-          options: any(named: 'options'),
-        )).thenAnswer((_) async => mockResponse);
+
+        when(
+          () => mockDio.get<dynamic>(
+            any(),
+            queryParameters: any(named: 'queryParameters'),
+            options: any(named: 'options'),
+          ),
+        ).thenAnswer((_) async => mockResponse);
 
         final client = AppHttpClient(
           config: config,
@@ -118,12 +133,14 @@ void main() {
           '/test',
           queryParameters: {'param1': 'value1'},
         );
-        
-        verify(() => mockDio.get<dynamic>(
-          '/test', 
-          queryParameters: {'param1': 'value1'}, 
-          options: null,
-        ));
+
+        verify(
+          () => mockDio.get<dynamic>(
+            '/test',
+            queryParameters: {'param1': 'value1'},
+            options: null,
+          ),
+        );
       });
 
       test('should convert DioException to ApiException', () async {
@@ -132,12 +149,14 @@ void main() {
           requestOptions: RequestOptions(path: '/test'),
           message: 'Timeout',
         );
-        
-        when(() => mockDio.get<dynamic>(
-          any(),
-          queryParameters: any(named: 'queryParameters'),
-          options: any(named: 'options'),
-        )).thenThrow(dioException);
+
+        when(
+          () => mockDio.get<dynamic>(
+            any(),
+            queryParameters: any(named: 'queryParameters'),
+            options: any(named: 'options'),
+          ),
+        ).thenThrow(dioException);
 
         final client = AppHttpClient(
           config: config,
@@ -152,11 +171,13 @@ void main() {
       });
 
       test('should handle generic exceptions', () async {
-        when(() => mockDio.get<dynamic>(
-          any(),
-          queryParameters: any(named: 'queryParameters'),
-          options: any(named: 'options'),
-        )).thenThrow(Exception('Generic error'));
+        when(
+          () => mockDio.get<dynamic>(
+            any(),
+            queryParameters: any(named: 'queryParameters'),
+            options: any(named: 'options'),
+          ),
+        ).thenThrow(Exception('Generic error'));
 
         final client = AppHttpClient(
           config: config,
@@ -178,13 +199,15 @@ void main() {
           statusCode: 201,
           requestOptions: RequestOptions(path: '/test'),
         );
-        
-        when(() => mockDio.post<dynamic>(
-          any(),
-          data: any(named: 'data'),
-          queryParameters: any(named: 'queryParameters'),
-          options: any(named: 'options'),
-        )).thenAnswer((_) async => mockResponse);
+
+        when(
+          () => mockDio.post<dynamic>(
+            any(),
+            data: any(named: 'data'),
+            queryParameters: any(named: 'queryParameters'),
+            options: any(named: 'options'),
+          ),
+        ).thenAnswer((_) async => mockResponse);
 
         final client = AppHttpClient(
           config: config,
@@ -196,14 +219,16 @@ void main() {
           '/test',
           data: {'name': 'test'},
         );
-        
+
         expect(result, {'created': true});
-        verify(() => mockDio.post<dynamic>(
-          '/test',
-          data: {'name': 'test'},
-          queryParameters: null,
-          options: null,
-        ));
+        verify(
+          () => mockDio.post<dynamic>(
+            '/test',
+            data: {'name': 'test'},
+            queryParameters: null,
+            options: null,
+          ),
+        );
       });
     });
 
@@ -214,13 +239,15 @@ void main() {
           statusCode: 200,
           requestOptions: RequestOptions(path: '/test/1'),
         );
-        
-        when(() => mockDio.put<dynamic>(
-          any(),
-          data: any(named: 'data'),
-          queryParameters: any(named: 'queryParameters'),
-          options: any(named: 'options'),
-        )).thenAnswer((_) async => mockResponse);
+
+        when(
+          () => mockDio.put<dynamic>(
+            any(),
+            data: any(named: 'data'),
+            queryParameters: any(named: 'queryParameters'),
+            options: any(named: 'options'),
+          ),
+        ).thenAnswer((_) async => mockResponse);
 
         final client = AppHttpClient(
           config: config,
@@ -232,7 +259,7 @@ void main() {
           '/test/1',
           data: {'name': 'updated'},
         );
-        
+
         expect(result, {'updated': true});
       });
     });
@@ -244,13 +271,15 @@ void main() {
           statusCode: 200,
           requestOptions: RequestOptions(path: '/test/1'),
         );
-        
-        when(() => mockDio.delete<dynamic>(
-          any(),
-          data: any(named: 'data'),
-          queryParameters: any(named: 'queryParameters'),
-          options: any(named: 'options'),
-        )).thenAnswer((_) async => mockResponse);
+
+        when(
+          () => mockDio.delete<dynamic>(
+            any(),
+            data: any(named: 'data'),
+            queryParameters: any(named: 'queryParameters'),
+            options: any(named: 'options'),
+          ),
+        ).thenAnswer((_) async => mockResponse);
 
         final client = AppHttpClient(
           config: config,
@@ -259,7 +288,7 @@ void main() {
         );
 
         final result = await client.delete<Map<String, dynamic>>('/test/1');
-        
+
         expect(result, {'deleted': true});
       });
     });
@@ -271,12 +300,14 @@ void main() {
           statusCode: 200,
           requestOptions: RequestOptions(path: '/test'),
         );
-        
-        when(() => mockDio.get<dynamic>(
-          any(),
-          queryParameters: any(named: 'queryParameters'),
-          options: any(named: 'options'),
-        )).thenAnswer((_) async => mockResponse);
+
+        when(
+          () => mockDio.get<dynamic>(
+            any(),
+            queryParameters: any(named: 'queryParameters'),
+            options: any(named: 'options'),
+          ),
+        ).thenAnswer((_) async => mockResponse);
 
         final client = AppHttpClient(
           config: config,
@@ -288,7 +319,7 @@ void main() {
           '/test',
           fromJson: (data) => TestModel.fromJson(data),
         );
-        
+
         expect(result.id, 1);
         expect(result.name, 'Test');
       });
@@ -299,12 +330,14 @@ void main() {
           statusCode: 200,
           requestOptions: RequestOptions(path: '/test'),
         );
-        
-        when(() => mockDio.get<dynamic>(
-          any(),
-          queryParameters: any(named: 'queryParameters'),
-          options: any(named: 'options'),
-        )).thenAnswer((_) async => mockResponse);
+
+        when(
+          () => mockDio.get<dynamic>(
+            any(),
+            queryParameters: any(named: 'queryParameters'),
+            options: any(named: 'options'),
+          ),
+        ).thenAnswer((_) async => mockResponse);
 
         final client = AppHttpClient(
           config: config,
@@ -372,9 +405,6 @@ class TestModel {
   TestModel({required this.id, required this.name});
 
   factory TestModel.fromJson(Map<String, dynamic> json) {
-    return TestModel(
-      id: json['id'] as int,
-      name: json['name'] as String,
-    );
+    return TestModel(id: json['id'] as int, name: json['name'] as String);
   }
 }

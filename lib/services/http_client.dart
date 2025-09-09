@@ -69,14 +69,15 @@ class AppHttpClient {
 
   Future<void> _setupDio() async {
     String userAgent = 'ThriftwoodApp/1.0.0 (${Platform.operatingSystem})';
-    
+
     try {
       final packageInfo = await PackageInfo.fromPlatform();
-      userAgent = '${packageInfo.appName}/${packageInfo.version} (${Platform.operatingSystem})';
+      userAgent =
+          '${packageInfo.appName}/${packageInfo.version} (${Platform.operatingSystem})';
     } catch (e) {
       // Use default user agent if package info is not available (e.g., in tests)
     }
-    
+
     _dio.options = BaseOptions(
       baseUrl: _config.baseUrl,
       connectTimeout: _config.connectTimeout,
@@ -104,7 +105,7 @@ class AppHttpClient {
     }
 
     _setupAuth();
-    
+
     if (_config.enableLogging) {
       _dio.interceptors.add(_createLoggingInterceptor());
     }
@@ -123,12 +124,15 @@ class AppHttpClient {
         break;
       case AuthType.bearer:
         if (_config.bearerToken != null) {
-          _dio.options.headers['Authorization'] = 'Bearer ${_config.bearerToken!}';
+          _dio.options.headers['Authorization'] =
+              'Bearer ${_config.bearerToken!}';
         }
         break;
       case AuthType.basic:
         if (_config.basicUsername != null && _config.basicPassword != null) {
-          final credentials = base64Encode(utf8.encode('${_config.basicUsername}:${_config.basicPassword}'));
+          final credentials = base64Encode(
+            utf8.encode('${_config.basicUsername}:${_config.basicPassword}'),
+          );
           _dio.options.headers['Authorization'] = 'Basic $credentials';
         }
         break;
@@ -141,7 +145,7 @@ class AppHttpClient {
     return InterceptorsWrapper(
       onRequest: (options, handler) {
         print('🌐 HTTP ${options.method.toUpperCase()} ${options.uri}');
-        
+
         if (options.data != null) {
           final sanitizedData = _sanitizeData(options.data);
           print('📤 Request Data: $sanitizedData');
@@ -157,23 +161,25 @@ class AppHttpClient {
       },
       onResponse: (response, handler) {
         print('✅ HTTP ${response.statusCode} ${response.requestOptions.uri}');
-        
+
         if (response.data != null) {
           final sanitizedResponse = _sanitizeData(response.data);
           print('📥 Response Data: $sanitizedResponse');
         }
-        
+
         handler.next(response);
       },
       onError: (error, handler) {
-        print('❌ HTTP Error ${error.response?.statusCode} ${error.requestOptions.uri}');
+        print(
+          '❌ HTTP Error ${error.response?.statusCode} ${error.requestOptions.uri}',
+        );
         print('🔥 Error: ${error.message}');
-        
+
         if (error.response?.data != null) {
           final sanitizedError = _sanitizeData(error.response!.data);
           print('💥 Error Data: $sanitizedError');
         }
-        
+
         handler.next(error);
       },
     );
@@ -183,14 +189,15 @@ class AppHttpClient {
     return InterceptorsWrapper(
       onError: (error, handler) async {
         final apiException = ApiException.fromDioException(error);
-        
+
         if (!apiException.isRetryable) {
           handler.next(error);
           return;
         }
 
-        final attempt = error.requestOptions.extra['retry_attempt'] as int? ?? 0;
-        
+        final attempt =
+            error.requestOptions.extra['retry_attempt'] as int? ?? 0;
+
         if (attempt >= _config.maxRetryAttempts) {
           handler.next(error);
           return;
@@ -203,8 +210,10 @@ class AppHttpClient {
         }
 
         final delay = _calculateRetryDelay(attempt);
-        print('🔄 Retrying request (attempt ${attempt + 1}/${_config.maxRetryAttempts}) after ${delay.inMilliseconds}ms');
-        
+        print(
+          '🔄 Retrying request (attempt ${attempt + 1}/${_config.maxRetryAttempts}) after ${delay.inMilliseconds}ms',
+        );
+
         await Future.delayed(delay);
 
         final retryOptions = error.requestOptions.copyWith(
@@ -235,8 +244,8 @@ class AppHttpClient {
   Future<bool> _checkConnectivity() async {
     try {
       final result = await _connectivity.checkConnectivity();
-      return result.any((connectivity) => 
-        connectivity != ConnectivityResult.none
+      return result.any(
+        (connectivity) => connectivity != ConnectivityResult.none,
       );
     } catch (_) {
       return true; // Assume connected if check fails
@@ -245,19 +254,21 @@ class AppHttpClient {
 
   Map<String, dynamic> _sanitizeData(dynamic data) {
     if (data is Map) {
-      return data.map((key, value) => MapEntry(
-        key.toString(),
-        _shouldRedact(key.toString()) ? '[REDACTED]' : value,
-      ));
+      return data.map(
+        (key, value) => MapEntry(
+          key.toString(),
+          _shouldRedact(key.toString()) ? '[REDACTED]' : value,
+        ),
+      );
     }
     return {'data': data.toString()};
   }
 
   Map<String, String> _sanitizeHeaders(Map<String, dynamic> headers) {
-    return headers.map((key, value) => MapEntry(
-      key,
-      _shouldRedact(key) ? '[REDACTED]' : value.toString(),
-    ));
+    return headers.map(
+      (key, value) =>
+          MapEntry(key, _shouldRedact(key) ? '[REDACTED]' : value.toString()),
+    );
   }
 
   bool _shouldRedact(String key) {
@@ -271,9 +282,9 @@ class AppHttpClient {
       'credential',
       'auth',
     ];
-    
-    return sensitiveKeys.any((sensitive) => 
-      key.toLowerCase().contains(sensitive.toLowerCase())
+
+    return sensitiveKeys.any(
+      (sensitive) => key.toLowerCase().contains(sensitive.toLowerCase()),
     );
   }
 
@@ -289,7 +300,7 @@ class AppHttpClient {
         queryParameters: queryParameters,
         options: options,
       );
-      
+
       return _parseResponse<T>(response.data, fromJson);
     } on DioException catch (e) {
       throw ApiException.fromDioException(e);
@@ -316,7 +327,7 @@ class AppHttpClient {
         queryParameters: queryParameters,
         options: options,
       );
-      
+
       return _parseResponse<T>(response.data, fromJson);
     } on DioException catch (e) {
       throw ApiException.fromDioException(e);
@@ -343,7 +354,7 @@ class AppHttpClient {
         queryParameters: queryParameters,
         options: options,
       );
-      
+
       return _parseResponse<T>(response.data, fromJson);
     } on DioException catch (e) {
       throw ApiException.fromDioException(e);
@@ -370,7 +381,7 @@ class AppHttpClient {
         queryParameters: queryParameters,
         options: options,
       );
-      
+
       return _parseResponse<T>(response.data, fromJson);
     } on DioException catch (e) {
       throw ApiException.fromDioException(e);
@@ -388,7 +399,7 @@ class AppHttpClient {
       if (fromJson != null) {
         return fromJson(data);
       }
-      
+
       return data as T;
     } catch (e) {
       throw ApiException.serialization(
@@ -402,7 +413,9 @@ class AppHttpClient {
   void updateConfig(HttpClientConfig newConfig) {
     // Create new instance with updated config
     // This is a simplified approach - in production you might want to update existing instance
-    throw UnimplementedError('Config update not implemented - create new instance instead');
+    throw UnimplementedError(
+      'Config update not implemented - create new instance instead',
+    );
   }
 
   void dispose() {
