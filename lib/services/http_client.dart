@@ -58,14 +58,27 @@ class AppHttpClient {
   final Connectivity _connectivity;
   final Random _random = Random();
 
-  AppHttpClient({
+  AppHttpClient._({
+    required HttpClientConfig config,
+    required Connectivity connectivity,
+    required Dio dio,
+  }) : _config = config,
+       _connectivity = connectivity {
+    _dio = dio;
+  }
+
+  static Future<AppHttpClient> create({
     required HttpClientConfig config,
     Connectivity? connectivity,
     Dio? dio,
-  }) : _config = config,
-       _connectivity = connectivity ?? Connectivity() {
-    _dio = dio ?? Dio();
-    _setupDio();
+  }) async {
+    final client = AppHttpClient._(
+      config: config,
+      connectivity: connectivity ?? Connectivity(),
+      dio: dio ?? Dio(),
+    );
+    await client._setupDio();
+    return client;
   }
 
   Future<void> _setupDio() async {
